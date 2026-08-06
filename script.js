@@ -1,125 +1,257 @@
-const senha=document.getElementById("senha");
+// ===============================
+// PASSWORD GENERATOR
+// script.js
+// ===============================
 
-const gerar=document.getElementById("gerar");
+// Elementos
 
-const copiar=document.getElementById("copiar");
+const passwordInput = document.getElementById("password");
+const generateButton = document.getElementById("generatePassword");
+const copyButton = document.getElementById("copyPassword");
+const showButton = document.getElementById("showPassword");
 
-const tamanho=document.getElementById("tamanho");
+const lengthSlider = document.getElementById("length");
+const lengthValue = document.getElementById("lengthValue");
 
-const valor=document.getElementById("valor");
+const uppercase = document.getElementById("uppercase");
+const lowercase = document.getElementById("lowercase");
+const numbers = document.getElementById("numbers");
+const symbols = document.getElementById("symbols");
 
-const nivel=document.getElementById("nivel");
+const strengthLevel = document.getElementById("strengthLevel");
+const strengthText = document.getElementById("strengthText");
 
-const texto=document.getElementById("textoForca");
+// Caracteres
 
-valor.innerHTML=tamanho.value;
+const UPPER = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+const LOWER = "abcdefghijklmnopqrstuvwxyz";
+const NUMBER = "0123456789";
+const SYMBOL = "!@#$%&*()-_=+[]{}<>?/";
 
-tamanho.oninput=()=>{
+// Atualiza tamanho
 
-valor.innerHTML=tamanho.value;
+lengthSlider.addEventListener("input", () => {
 
-}
+    lengthValue.textContent = lengthSlider.value;
 
-gerar.onclick=()=>{
+        if(passwordInput.value !== ""){
 
-const MAIUS="ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+                updateStrength(passwordInput.value);
 
-const MINUS="abcdefghijklmnopqrstuvwxyz";
+                    }
 
-const NUM="0123456789";
+                    });
 
-const SIMB="!@#$%&*()-_=+?/";
+                    // Número aleatório seguro
 
-let chars="";
+                    function secureRandom(max){
 
-if(maiusculas.checked) chars+=MAIUS;
+                        const array = new Uint32Array(1);
 
-if(minusculas.checked) chars+=MINUS;
+                            crypto.getRandomValues(array);
 
-if(numeros.checked) chars+=NUM;
+                                return array[0] % max;
 
-if(simbolos.checked) chars+=SIMB;
+                                }
 
-if(chars===""){
+                                // Embaralhar
 
-alert("Selecione pelo menos uma opção.");
+                                function shuffle(array){
 
-return;
+                                    for(let i = array.length - 1; i > 0; i--){
 
-}
+                                            const j = secureRandom(i + 1);
 
-let pass="";
+                                                    [array[i], array[j]] = [array[j], array[i]];
 
-for(let i=0;i<tamanho.value;i++){
+                                                        }
 
-pass+=chars.charAt(Math.floor(Math.random()*chars.length));
+                                                            return array;
 
-}
+                                                            }
 
-senha.value=pass;
+                                                            // Gerar senha
 
-verificar();
+                                                            function generatePassword(){
 
-}
+                                                                let pool = "";
 
-copiar.onclick=()=>{
+                                                                    const password = [];
 
-navigator.clipboard.writeText(senha.value);
+                                                                        if(uppercase.checked){
 
-copiar.innerHTML="✔";
+                                                                                pool += UPPER;
 
-setTimeout(()=>{
+                                                                                        password.push(UPPER[secureRandom(UPPER.length)]);
 
-copiar.innerHTML="📋";
+                                                                                            }
 
-},1200);
+                                                                                                if(lowercase.checked){
 
-}
+                                                                                                        pool += LOWER;
 
-function verificar(){
+                                                                                                                password.push(LOWER[secureRandom(LOWER.length)]);
 
-let pontos=0;
+                                                                                                                    }
 
-if(maiusculas.checked) pontos++;
+                                                                                                                        if(numbers.checked){
 
-if(minusculas.checked) pontos++;
+                                                                                                                                pool += NUMBER;
 
-if(numeros.checked) pontos++;
+                                                                                                                                        password.push(NUMBER[secureRandom(NUMBER.length)]);
 
-if(simbolos.checked) pontos++;
+                                                                                                                                            }
 
-if(tamanho.value>=16) pontos++;
+                                                                                                                                                if(symbols.checked){
 
-if(tamanho.value>=24) pontos++;
+                                                                                                                                                        pool += SYMBOL;
 
-if(pontos<=2){
+                                                                                                                                                                password.push(SYMBOL[secureRandom(SYMBOL.length)]);
 
-nivel.style.width="30%";
+                                                                                                                                                                    }
 
-nivel.style.background="#ef4444";
+                                                                                                                                                                        if(pool === ""){
 
-texto.innerHTML="Força: Fraca";
+                                                                                                                                                                                alert("Selecione pelo menos uma opção.");
 
-}
+                                                                                                                                                                                        return;
 
-else if(pontos<=4){
+                                                                                                                                                                                            }
 
-nivel.style.width="65%";
+                                                                                                                                                                                                while(password.length < Number(lengthSlider.value)){
 
-nivel.style.background="#f59e0b";
+                                                                                                                                                                                                        password.push(pool[secureRandom(pool.length)]);
 
-texto.innerHTML="Força: Média";
+                                                                                                                                                                                                            }
 
-}
+                                                                                                                                                                                                                const finalPassword = shuffle(password).join("");
 
-else{
+                                                                                                                                                                                                                    passwordInput.value = finalPassword;
 
-nivel.style.width="100%";
+                                                                                                                                                                                                                        updateStrength(finalPassword);
 
-nivel.style.background="#22c55e";
+                                                                                                                                                                                                                        }
 
-texto.innerHTML="Força: Forte";
+                                                                                                                                                                                                                        // Força
 
-}
+                                                                                                                                                                                                                        function updateStrength(password){
 
-}
+                                                                                                                                                                                                                            let score = 0;
+
+                                                                                                                                                                                                                                if(password.length >= 8) score++;
+
+                                                                                                                                                                                                                                    if(password.length >= 12) score++;
+
+                                                                                                                                                                                                                                        if(password.length >= 16) score++;
+
+                                                                                                                                                                                                                                            if(/[A-Z]/.test(password)) score++;
+
+                                                                                                                                                                                                                                                if(/[a-z]/.test(password)) score++;
+
+                                                                                                                                                                                                                                                    if(/[0-9]/.test(password)) score++;
+
+                                                                                                                                                                                                                                                        if(/[^A-Za-z0-9]/.test(password)) score++;
+
+                                                                                                                                                                                                                                                            if(score <= 3){
+
+                                                                                                                                                                                                                                                                    strengthLevel.style.width = "30%";
+
+                                                                                                                                                                                                                                                                            strengthLevel.style.background = "#ef4444";
+
+                                                                                                                                                                                                                                                                                    strengthText.textContent = "Fraca";
+
+                                                                                                                                                                                                                                                                                        }
+
+                                                                                                                                                                                                                                                                                            else if(score <= 5){
+
+                                                                                                                                                                                                                                                                                                    strengthLevel.style.width = "65%";
+
+                                                                                                                                                                                                                                                                                                            strengthLevel.style.background = "#f59e0b";
+
+                                                                                                                                                                                                                                                                                                                    strengthText.textContent = "Média";
+
+                                                                                                                                                                                                                                                                                                                        }
+
+                                                                                                                                                                                                                                                                                                                            else{
+
+                                                                                                                                                                                                                                                                                                                                    strengthLevel.style.width = "100%";
+
+                                                                                                                                                                                                                                                                                                                                            strengthLevel.style.background = "#22c55e";
+
+                                                                                                                                                                                                                                                                                                                                                    strengthText.textContent = "Forte";
+
+                                                                                                                                                                                                                                                                                                                                                        }
+
+                                                                                                                                                                                                                                                                                                                                                        }
+
+                                                                                                                                                                                                                                                                                                                                                        // Copiar
+
+                                                                                                                                                                                                                                                                                                                                                        copyButton.addEventListener("click", async () => {
+
+                                                                                                                                                                                                                                                                                                                                                            if(passwordInput.value === "") return;
+
+                                                                                                                                                                                                                                                                                                                                                                await navigator.clipboard.writeText(passwordInput.value);
+
+                                                                                                                                                                                                                                                                                                                                                                    const old = copyButton.textContent;
+
+                                                                                                                                                                                                                                                                                                                                                                        copyButton.textContent = "✔";
+
+                                                                                                                                                                                                                                                                                                                                                                            setTimeout(()=>{
+
+                                                                                                                                                                                                                                                                                                                                                                                    copyButton.textContent = old;
+
+                                                                                                                                                                                                                                                                                                                                                                                        },1200);
+
+                                                                                                                                                                                                                                                                                                                                                                                        });
+
+                                                                                                                                                                                                                                                                                                                                                                                        // Mostrar senha
+
+                                                                                                                                                                                                                                                                                                                                                                                        showButton.addEventListener("click",()=>{
+
+                                                                                                                                                                                                                                                                                                                                                                                            if(passwordInput.type === "password"){
+
+                                                                                                                                                                                                                                                                                                                                                                                                    passwordInput.type = "text";
+
+                                                                                                                                                                                                                                                                                                                                                                                                            showButton.textContent = "🙈";
+
+                                                                                                                                                                                                                                                                                                                                                                                                                }
+
+                                                                                                                                                                                                                                                                                                                                                                                                                    else{
+
+                                                                                                                                                                                                                                                                                                                                                                                                                            passwordInput.type = "password";
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                    showButton.textContent = "👁️";
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                        }
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                        });
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                        // Gerar
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                        generateButton.addEventListener("click",generatePassword);
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                        // Atualizar força ao mudar opções
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                        [
+                                                                                                                                                                                                                                                                                                                                                                                                                                        uppercase,
+                                                                                                                                                                                                                                                                                                                                                                                                                                        lowercase,
+                                                                                                                                                                                                                                                                                                                                                                                                                                        numbers,
+                                                                                                                                                                                                                                                                                                                                                                                                                                        symbols
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                        ].forEach(item=>{
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                            item.addEventListener("change",()=>{
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                    if(passwordInput.value){
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                updateStrength(passwordInput.value);
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                        }
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                            });
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                            });
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                            // Primeira senha
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                            generatePassword();

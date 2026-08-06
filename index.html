@@ -1,96 +1,201 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Gerador de Senhas</title>
+        <meta charset="UTF-8">
 
-<link rel="stylesheet" href="style.css">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+                <meta name="description"
+                        content="Gerador de Senhas moderno, seguro e responsivo.">
+
+                            <meta name="theme-color" content="#0f172a">
+
+                                <title>Password Generator</title>
+
+                                    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+                                        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+                                            <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+                                                    rel="stylesheet">
+
+                                                        <link rel="stylesheet" href="style.css">
+
 </head>
 
 <body>
 
-<div class="container">
+        <main class="container">
 
-<h1>🔐 Gerador de Senhas</h1>
+                    <section class="card">
 
-<div class="senha-box">
+                                    <header>
 
-<input
-type="text"
-id="senha"
-readonly
-placeholder="Clique em Gerar">
+                                                        <h1>🔐 Password Generator</h1>
 
-<button id="copiar">
-📋
-</button>
+                                                                        <p>
+                                                                                                Gere senhas fortes e criptograficamente seguras.
+                                                                        </p>
 
-</div>
+                                                                    </header>
 
-<button id="gerar" class="btn-gerar">
-Gerar Senha
-</button>
+                                                                                <section class="password-area">
 
-<div class="config">
+                                                                                                    <input
+                                                                                                                        type="password"
+                                                                                                                                            id="password"
+                                                                                                                                                                readonly
+                                                                                                                                                                                    autocomplete="off"
+                                                                                                                                                                                                        spellcheck="false"
+                                                                                                                                                                                                                            placeholder="Clique em Gerar">
 
-<h2>Personalizar</h2>
+                                                                                                                                                                                                                                            <button
+                                                                                                                                                                                                                                                                id="showPassword"
+                                                                                                                                                                                                                                                                                    class="icon-btn"
+                                                                                                                                                                                                                                                                                                        title="Mostrar senha"
+                                                                                                                                                                                                                                                                                                                            aria-label="Mostrar senha">
 
-<label>
+                                                                                                                                                                                                                                                                                                                                                👁️
 
-Comprimento
+                                                                                </button>
 
-<span id="valor">16</span>
+                                                                                                <button
+                                                                                                                    id="copyPassword"
+                                                                                                                                        class="icon-btn"
+                                                                                                                                                            title="Copiar senha"
+                                                                                                                                                                                aria-label="Copiar senha">
 
-</label>
+                                                                                                                                                                                                    📋
 
-<input
-type="range"
-id="tamanho"
-min="6"
-max="40"
-value="16">
+                                                                            </button>
 
-<label>
-<input type="checkbox" id="maiusculas" checked>
-Letras Maiúsculas
-</label>
+                                                                        </section>
 
-<label>
-<input type="checkbox" id="minusculas" checked>
-Letras Minúsculas
-</label>
+                                                                                    <button id="generatePassword" class="generate">
 
-<label>
-<input type="checkbox" id="numeros" checked>
-Números
-</label>
+                                                                                                        Gerar Senha
 
-<label>
-<input type="checkbox" id="simbolos" checked>
-Símbolos
-</label>
+                                                                                    </button>
 
-</div>
+                                                                                                <section class="options">
 
-<div class="forca">
+                                                                                                                    <h2>Configurações</h2>
 
-<div class="barra">
+                                                                                                                                    <div class="slider">
 
-<div id="nivel"></div>
+                                                                                                                                                            <label for="length">
 
-</div>
+                                                                                                                                                                                        Comprimento
 
-<p id="textoForca">Força: Média</p>
+                                                                                                                                                                                                                <span id="lengthValue">
 
-</div>
+                                                                                                                                                                                                                                                16
 
-</div>
+                                                                                                                                                                                                                </span>
 
-<script src="script.js"></script>
+                                                                                                                                                                                                            </label>
 
-</body>
-</html>
+                                                                                                                                                                                                                                <input
+                                                                                                                                                                                                                                                        id="length"
+                                                                                                                                                                                                                                                                                type="range"
+                                                                                                                                                                                                                                                                                                        min="6"
+                                                                                                                                                                                                                                                                                                                                max="64"
+                                                                                                                                                                                                                                                                                                                                                        value="16">
+
+                                                                                                                                                                                                        </div>
+
+                                                                                                                                                                                                                        <label class="checkbox">
+
+                                                                                                                                                                                                                                                <input
+                                                                                                                                                                                                                                                                        id="uppercase"
+                                                                                                                                                                                                                                                                                                type="checkbox"
+                                                                                                                                                                                                                                                                                                                        checked>
+
+                                                                                                                                                                                                                                                                                                                                            Letras Maiúsculas
+
+                                                                                                                                                                                                                        </label>
+
+                                                                                                                                                                                                                                        <label class="checkbox">
+
+                                                                                                                                                                                                                                                                <input
+                                                                                                                                                                                                                                                                                        id="lowercase"
+                                                                                                                                                                                                                                                                                                                type="checkbox"
+                                                                                                                                                                                                                                                                                                                                        checked>
+
+                                                                                                                                                                                                                                                                                                                                                            Letras Minúsculas
+
+                                                                                                                                                                                                                                        </label>
+
+                                                                                                                                                                                                                                                        <label class="checkbox">
+
+                                                                                                                                                                                                                                                                                <input
+                                                                                                                                                                                                                                                                                                        id="numbers"
+                                                                                                                                                                                                                                                                                                                                type="checkbox"
+                                                                                                                                                                                                                                                                                                                                                        checked>
+
+                                                                                                                                                                                                                                                                                                                                                                            Números
+
+                                                                                                                                                                                                                                                        </label>
+
+                                                                                                                                                                                                                                                                        <label class="checkbox">
+
+                                                                                                                                                                                                                                                                                                <input
+                                                                                                                                                                                                                                                                                                                        id="symbols"
+                                                                                                                                                                                                                                                                                                                                                type="checkbox"
+                                                                                                                                                                                                                                                                                                                                                                        checked>
+
+                                                                                                                                                                                                                                                                                                                                                                                            Símbolos
+
+                                                                                                                                                                                                                                                                        </label>
+
+                                                                                                                                                                                                                                                                    </section>
+
+                                                                                                                                                                                                                                                                                <section class="strength">
+
+                                                                                                                                                                                                                                                                                                    <div class="strength-header">
+
+                                                                                                                                                                                                                                                                                                                            <span>Força da senha</span>
+
+                                                                                                                                                                                                                                                                                                                                                <span id="strengthText">
+
+                                                                                                                                                                                                                                                                                                                                                                            Média
+
+                                                                                                                                                                                                                                                                                                                                                </span>
+
+                                                                                                                                                                                                                                                                                                                                            </div>
+
+                                                                                                                                                                                                                                                                                                                                                            <div class="strength-bar">
+
+                                                                                                                                                                                                                                                                                                                                                                                    <div id="strengthLevel"></div>
+
+                                                                                                                                                                                                                                                                                                                                                            </div>
+
+                                                                                                                                                                                                                                                                                                                                                        </section>
+
+                                                                                                                                                                                                                                                                                                                                                                    <section class="tips">
+
+                                                                                                                                                                                                                                                                                                                                                                                        <h3>Dicas</h3>
+
+                                                                                                                                                                                                                                                                                                                                                                                                        <ul>
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                <li>Utilize pelo menos 16 caracteres.</li>
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                    <li>Evite reutilizar senhas.</li>
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <li>Prefira armazenar suas senhas em um gerenciador.</li>
+
+                                                                                                                                                                                                                                                                                                                                                                                                        </ul>
+
+                                                                                                                                                                                                                                                                                                                                                                                                    </section>
+
+                                                                                                                                                                                                                                                                                                                                                                                                </section>
+
+                                                                                                                                                                                                                                                                                                                                                                                            </main>
+
+                                                                                                                                                                                                                                                                                                                                                                                                <script src="script.js"></script>
+
+                                                                                                                                                                                                                                                                                                                                                                                        </body>
+
+                                                                                                                                                                                                                                                                                                                                                                                        </html>
